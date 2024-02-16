@@ -56,8 +56,9 @@ public class LibraryDaoImpl implements LibraryDao{
 			if(connection == null) {
 				throw new ExecutionErrorException("Error in establish connection\nTry again!!");
 			}
-			String fetchBookDataAnalyticsQuery = "SELECT * FROM BOOK WHERE BOOKTYPE='"+bookType+"'";
+			String fetchBookDataAnalyticsQuery = "SELECT * FROM BOOK WHERE BOOKTYPE=?";
 			preparedStatement = connection.prepareStatement(fetchBookDataAnalyticsQuery);
+			preparedStatement.setString(1, bookType);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(!resultSet.next()) {
 				throw new RecordNotFoundException(bookType+" Book Type is not available!!");
