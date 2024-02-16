@@ -1,4 +1,5 @@
 CREATE DATABASE sapient_library;
+use sapient_library;
 CREATE TABLE `sapient_library`.`book` (
   `bookId` INT NOT NULL,
   `bookName` VARCHAR(45) NOT NULL,
