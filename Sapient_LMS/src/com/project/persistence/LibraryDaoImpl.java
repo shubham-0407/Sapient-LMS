@@ -14,7 +14,7 @@ import com.project.exception.RecordNotFoundException;
 public class LibraryDaoImpl implements LibraryDao{
 	final String DB_URL = "jdbc:mysql://127.0.0.1:3306/sapient_library";
 	final String DB_USER = "root";
-	final String DB_PASSWORD = "shubh@0407";
+	final String DB_PASSWORD = "Avtar@123";
 	
 	PreparedStatement preparedStatement;
 	LibraryBook libraryBook;
@@ -22,17 +22,15 @@ public class LibraryDaoImpl implements LibraryDao{
 	List<LibraryBook> allBookList = new ArrayList<LibraryBook>();
 	 
 	@Override
-	public List<LibraryBook> showAllBook() throws ExecutionErrorException, RecordNotFoundException {
+	public List<LibraryBook> showAllBook() {
 		try(Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);)
 		{
-			if(connection == null) {
-				throw new ExecutionErrorException("Error in establish connection\nTry again!!");
-			}
+			
 			String fetchAllQuery = "SELECT * FROM BOOK";
 			preparedStatement = connection.prepareStatement(fetchAllQuery);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(!resultSet.next()) {
-				throw new RecordNotFoundException("No book is available in Library!!");
+				return null;
 			}
 			while (resultSet.next()) {
 				int bookId = resultSet.getInt("bookId");
@@ -43,25 +41,24 @@ public class LibraryDaoImpl implements LibraryDao{
 				allBookList.add(libraryBook);
 			}
 		} catch (SQLException e) {
-			throw new ExecutionErrorException("Exception occured!!\nError in executing SQL Queries");
+			System.out.println("Error in establish connection !! Please Check Your Credentials!!");
+			// new ExecutionErrorException();
 		}
 		return allBookList;
 	}
 
 	 
 	@Override
-	public List<LibraryBook> showBookByType(String bookType) throws  ExecutionErrorException, RecordNotFoundException{
+	public List<LibraryBook> showBookByType(String bookType){
 		try(Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);)
 		{
-			if(connection == null) {
-				throw new ExecutionErrorException("Error in establish connection\nTry again!!");
-			}
+			
 			String fetchBookDataAnalyticsQuery = "SELECT * FROM BOOK WHERE BOOKTYPE=?";
 			preparedStatement = connection.prepareStatement(fetchBookDataAnalyticsQuery);
 			preparedStatement.setString(1, bookType);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if(!resultSet.next()) {
-				throw new RecordNotFoundException(bookType+" Book Type is not available!!");
+				return null;
 			}
 			while (resultSet.next()) {
 				int bookId = resultSet.getInt("bookId");
@@ -71,7 +68,7 @@ public class LibraryDaoImpl implements LibraryDao{
 				bookTypeList.add(libraryBook);
 			}
 		} catch (SQLException e) {
-			throw new ExecutionErrorException("Exception occured!!\nError in executing SQL Queries");
+			System.out.println("Error in establish connection !! Please Check Your Credentials!!");
 		}
 		return bookTypeList;
 	}
