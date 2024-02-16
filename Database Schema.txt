@@ -1,0 +1,7 @@
+CREATE DATABASE sapient_library;
+CREATE TABLE `sapient_library`.`book` (
+  `bookId` INT NOT NULL,
+  `bookName` VARCHAR(45) NOT NULL,
+  `bookType` VARCHAR(45) NOT NULL,
+  `bookAuthor` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`bookId`));
