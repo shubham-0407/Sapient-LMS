@@ -5,3 +5,21 @@ CREATE TABLE `sapient_library`.`book` (
   `bookType` VARCHAR(45) NOT NULL,
   `bookAuthor` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`bookId`));
+
+INSERT INTO BOOK (bookId, bookName, bookType, bookAuthor)
+VALUES
+    (101, "The Lean Startups", "Management", "Eric Ries"),
+    (102, "Good to Great", "Management", "Jim Collins"),
+    (103, "Leaders Eat Last", "Management", "Simon Sinek"),
+    (104, "Thinking, Fast and Slow", "Management", "Daniel Kahneman"),
+    (105, "Drive", "Management", "Daniel H. Pink"),
+    (106, "The Innovators", "Technology", "Walter Isaacson"),
+    (107, "Sapiens", "Technology", "Noah Harari"),
+    (108, "Zero to One", "Technology", "Peter Thiel"),
+    (109, "The Second Machine Age", "Technology", "Erik Brynjolfsson"),
+    (110, "Head First Java", "Technology", "Kathy Sierra"),
+    (111, "The Art of Data Science", "Data analytics", "Peng & Matsui"),
+    (112, "Data Science for Business", "Data analytics", "Provost"),
+    (113, "Dataclysm", "Data analytics", "Christian Rudder"),
+    (114, "Storytelling with Data", "Data analytics", "Cole Nussbaumer Knaflic"),
+    (115, "The Lean Startups", "Data analytics", "Eric Ries");
