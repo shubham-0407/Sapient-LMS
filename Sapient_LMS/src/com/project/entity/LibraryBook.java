@@ -5,11 +5,7 @@ public class LibraryBook {
 	private String bookName;
 	private String bookType;
 	private String bookAuthor;
-	
-	
-	public LibraryBook() {
-
-	}
+	 
 	public LibraryBook(int bookId, String bookName, String bookType, String bookAuthor) {
 		super();
 		this.bookId = bookId;
