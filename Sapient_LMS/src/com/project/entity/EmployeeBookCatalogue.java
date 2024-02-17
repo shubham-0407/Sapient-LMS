@@ -8,6 +8,7 @@ public class EmployeeBookCatalogue {
     private List<LibraryBook> issuedBooks;
     private boolean issuedSuccess;
     private boolean catalogueCreated;
+    private boolean returnSuccess;
 
 	public EmployeeBookCatalogue(String employeeName) {
 		super();
@@ -19,7 +20,13 @@ public class EmployeeBookCatalogue {
 	public boolean isCatalogueCreated() {
 		return catalogueCreated;
 	}
-	
+	public String getEmployeeName() {
+		return employeeName;
+	}
+ 
+	public List<LibraryBook> getIssuedBooks() {
+		return issuedBooks;
+	}
 	public boolean setIssuedBooks(LibraryBook issuedBooks) {
 		issuedSuccess = this.issuedBooks.add(issuedBooks);
 		if(issuedSuccess) {
@@ -28,14 +35,15 @@ public class EmployeeBookCatalogue {
 			return false;
 		}
 	}
+	
+	public boolean returnBook(LibraryBook returnBook) {
+		returnSuccess = this.issuedBooks.remove(returnBook);
+		if(returnSuccess) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
-	public String getEmployeeName() {
-		return employeeName;
-	}
- 
-	public List<LibraryBook> getIssuedBooks() {
-		return issuedBooks;
-	}
- 
 }
 

@@ -1,6 +1,7 @@
 package com.project.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class LibraryBook {
 	private int bookId;
@@ -73,6 +74,24 @@ public class LibraryBook {
 	}
 	
 	
+	@Override
+	public int hashCode() {
+		return Objects.hash(bookAuthor, bookId, bookName, bookType, isBookIssued, issuedDate, returnDate);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LibraryBook other = (LibraryBook) obj;
+		return Objects.equals(bookAuthor, other.bookAuthor) && bookId == other.bookId
+				&& Objects.equals(bookName, other.bookName) && Objects.equals(bookType, other.bookType)
+				&& isBookIssued == other.isBookIssued && Objects.equals(issuedDate, other.issuedDate)
+				&& Objects.equals(returnDate, other.returnDate);
+	}
 	@Override
 	public String toString() {
 		return "LibraryBook [bookId=" + bookId + ", bookName=" + bookName + ", bookType=" + bookType + ", bookAuthor="
