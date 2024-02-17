@@ -6,11 +6,27 @@ import java.util.List;
 public class EmployeeBookCatalogue {
     private String employeeName;
     private List<LibraryBook> issuedBooks;
-    
-    public EmployeeBookCatalogue(String employeeName) {
+    private boolean issuedSuccess;
+    private boolean catalogueCreated;
+
+	public EmployeeBookCatalogue(String employeeName) {
 		super();
 		this.employeeName = employeeName;
-		this.issuedBooks = new ArrayList<>();;
+		this.issuedBooks = new ArrayList<>();
+		this.catalogueCreated = true;
+	}
+
+	public boolean isCatalogueCreated() {
+		return catalogueCreated;
+	}
+	
+	public boolean setIssuedBooks(LibraryBook issuedBooks) {
+		issuedSuccess = this.issuedBooks.add(issuedBooks);
+		if(issuedSuccess) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	public String getEmployeeName() {
@@ -21,12 +37,5 @@ public class EmployeeBookCatalogue {
 		return issuedBooks;
 	}
  
-	public void issueBook(LibraryBook book) {
-        issuedBooks.add(book);
-    }
-
-    public void returnBook(LibraryBook book) {
-        issuedBooks.remove(book);
-    }
 }
 

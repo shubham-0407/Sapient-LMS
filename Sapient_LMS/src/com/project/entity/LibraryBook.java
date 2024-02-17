@@ -1,17 +1,32 @@
 package com.project.entity;
 
+import java.time.LocalDate;
+
 public class LibraryBook {
 	private int bookId;
 	private String bookName;
 	private String bookType;
 	private String bookAuthor;
-	 
+	private boolean isBookIssued;
+	private LocalDate issuedDate;
+	private LocalDate returnDate;
+	
+	
 	public LibraryBook(int bookId, String bookName, String bookType, String bookAuthor) {
-		super();
 		this.bookId = bookId;
 		this.bookName = bookName;
 		this.bookType = bookType;
 		this.bookAuthor = bookAuthor;
+	}
+	public LibraryBook(int bookId, String bookName, String bookType, String bookAuthor, boolean isBookIssued,
+			LocalDate issuedDate, LocalDate returnDate) {
+		this.bookId = bookId;
+		this.bookName = bookName;
+		this.bookType = bookType;
+		this.bookAuthor = bookAuthor;
+		this.isBookIssued = isBookIssued;
+		this.issuedDate = issuedDate;
+		this.returnDate = returnDate;
 	}
 	public int getBookId() {
 		return bookId;
@@ -37,10 +52,32 @@ public class LibraryBook {
 	public void setBookAuthor(String bookAuthor) {
 		this.bookAuthor = bookAuthor;
 	}
+	
+	public boolean isBookIssued() {
+		return isBookIssued;
+	}
+	public void setBookIssued(boolean isBookIssued) {
+		this.isBookIssued = isBookIssued;
+	}
+	public LocalDate getIssuedDate() {
+		return issuedDate;
+	}
+	public void setIssuedDate(LocalDate issuedDate) {
+		this.issuedDate = issuedDate;
+	}
+	public LocalDate getReturnDate() {
+		return returnDate;
+	}
+	public void setReturnDate(LocalDate returnDate) {
+		this.returnDate = returnDate;
+	}
+	
+	
 	@Override
 	public String toString() {
-		return "Book [bookId=" + bookId + ", bookName=" + bookName + ", bookType=" + bookType + ", bookAuthor="
-				+ bookAuthor + "]";
+		return "LibraryBook [bookId=" + bookId + ", bookName=" + bookName + ", bookType=" + bookType + ", bookAuthor="
+				+ bookAuthor + ", isBookIssued=" + isBookIssued + ", issuedDate=" + issuedDate + ", returnDate="
+				+ returnDate + "]";
 	}
 	
 	

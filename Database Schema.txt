@@ -24,3 +24,11 @@ VALUES
     (113, "Dataclysm", "Data analytics", "Christian Rudder"),
     (114, "Storytelling with Data", "Data analytics", "Cole Nussbaumer Knaflic"),
     (115, "The Lean Startups", "Data analytics", "Eric Ries");
+
+
+// Alter the table schema by running below sql queries
+use sapient_library;
+ALTER TABLE book
+ADD COLUMN isBookIssued BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN issuedDate DATE NOT NULL DEFAULT  "2024-02-17",
+ADD COLUMN returnDate DATE NOT NULL DEFAULT "2024-02-17";
