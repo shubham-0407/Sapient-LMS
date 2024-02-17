@@ -7,20 +7,10 @@ import com.project.entity.LibraryBook;
 
 
 public interface LibraryDao {
-	
-	List<LibraryBook> getAllBooks();
-	List<LibraryBook> getBooksByType(String bookType);
-
-	// Issue Book
-	int updateBookIssueStatus(int id,LocalDate issueDate);
-
-	// Returning Book
-	LibraryBook findBookByBookId(int id);
-	int updateBookReturnStatus(int id,LocalDate returnDate);
-	
-
-
-
-	
+	List<LibraryBook> getAllBook();
+	List<LibraryBook> getBookByType(String bookType);
+	LibraryBook getBookById(int bookId);
+	boolean updateBookIssuedDate(int bookId, LocalDate issuedDate);
+	boolean updateBookReturnDate(int bookId, LocalDate returnDate);
 
 }
