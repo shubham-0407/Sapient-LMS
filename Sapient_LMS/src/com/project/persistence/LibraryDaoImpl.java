@@ -20,9 +20,8 @@ public class LibraryDaoImpl implements LibraryDao {
 	private final String FETCHALLBOOK = "SELECT * FROM BOOK";
 	private final String FETCHBOOKBYTYPE = "SELECT * FROM BOOK WHERE BOOKTYPE=? AND ISBOOKISSUED=?";
 	private final String FETCHBOOKBYID = "SELECT * FROM BOOK WHERE BOOKID=?";
-	private final String UPDATEBOOKISSUEDDATE = "UPDATE BOOK SET ISBOOKISSUED=?,ISSUEDDATE=? WHERE BOOKID=?";
-	private final String UPDATEBOOKRETURNDATE = "UPDATE BOOK SET ISBOOKISSUED=?,RETURNDATE=? WHERE BOOKID=?";
-
+	private final String UPDATEBOOKISSUEDSTATUS = "UPDATE BOOK SET ISBOOKISSUED=?,ISSUEDDATE=?, RETURNDATE=? WHERE BOOKID=?";
+	 
 	PreparedStatement preparedStatement;
 	LibraryBook libraryBook;
 	List<LibraryBook> bookList = new ArrayList<LibraryBook>();
@@ -91,7 +90,7 @@ public class LibraryDaoImpl implements LibraryDao {
 				LocalDate bookIssuedDate = issuedDate.toLocalDate();
 				java.sql.Date returnDate = resultSet.getDate("returnDate");
 				LocalDate bookReturnDate = returnDate.toLocalDate();
-				libraryBook = new LibraryBook(bookId, bookName, bookAuthor, bookType, isIssued, bookIssuedDate,
+				libraryBook = new LibraryBook(bookId, bookName,bookType, bookAuthor, isIssued, bookIssuedDate,
 						bookReturnDate);
 				return libraryBook;
 			}
@@ -104,37 +103,32 @@ public class LibraryDaoImpl implements LibraryDao {
 	}
 
 	@Override
-	public boolean updateBookIssuedDate(int bookId, LocalDate issuedDate) {
+	public boolean updateBookIssuedStatus(int bookId, boolean issuedStatus) {
 		int issuedUpdatedRow = 0;
+		LocalDate issuedDate;
+		LocalDate returnDate;
+		java.sql.Date bookIssuedDate;
+		java.sql.Date bookReturnDate;
+
 		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);) {
-			preparedStatement = connection.prepareStatement(UPDATEBOOKISSUEDDATE);
-			// Convert LocalDate to java.sql.Date
-			java.sql.Date bookIssuedDate = java.sql.Date.valueOf(issuedDate);
-			preparedStatement.setBoolean(1, true);
+			if (issuedStatus) {
+				issuedDate = LocalDate.now();
+				returnDate = LocalDate.now().plusDays(7);
+				bookIssuedDate = java.sql.Date.valueOf(issuedDate);
+				bookReturnDate = java.sql.Date.valueOf(returnDate);
+			} else {
+				issuedDate = LocalDate.now();
+				returnDate = LocalDate.now();
+				bookIssuedDate = java.sql.Date.valueOf(issuedDate);
+				bookReturnDate = java.sql.Date.valueOf(returnDate);
+			}
+			preparedStatement = connection.prepareStatement(UPDATEBOOKISSUEDSTATUS);
+			preparedStatement.setBoolean(1, issuedStatus);
 			preparedStatement.setDate(2, bookIssuedDate);
-			preparedStatement.setInt(3, bookId);
+			preparedStatement.setDate(3, bookReturnDate);
+			preparedStatement.setInt(4, bookId);
 			issuedUpdatedRow = preparedStatement.executeUpdate();
 			if (issuedUpdatedRow <= 0) {
-				return false;
-			}
-		} catch (SQLException e) {
-			System.out.println("Error in establish connection !! Please Check Your Credentials!!");
-		}
-		return true;
-	}
-
-	@Override
-	public boolean updateBookReturnDate(int bookId, LocalDate returnDate) {
-		int returnUpdatedRow = 0;
-		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);) {
-			preparedStatement = connection.prepareStatement(UPDATEBOOKRETURNDATE);
-			// Convert LocalDate to java.sql.Date
-			java.sql.Date bookReturnDate = java.sql.Date.valueOf(returnDate);
-			preparedStatement.setBoolean(1, false);
-			preparedStatement.setDate(2, bookReturnDate);
-			preparedStatement.setInt(3, bookId);
-			returnUpdatedRow = preparedStatement.executeUpdate();
-			if (returnUpdatedRow <= 0) {
 				return false;
 			}
 		} catch (SQLException e) {
