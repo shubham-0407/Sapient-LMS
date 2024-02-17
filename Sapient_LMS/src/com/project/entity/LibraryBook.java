@@ -7,22 +7,26 @@ public class LibraryBook {
 	private String bookName;
 	private String bookType;
 	private String bookAuthor;
-	private Boolean isBookIssued;
+	private boolean isBookIssued;
 	private LocalDate issuedDate;
-	private LocalDate returnedDate;
-
-
-
+	private LocalDate returnDate;
 	
-	public LibraryBook(int bookId, String bookName, String bookType, String bookAuthor, Boolean isBookIssued,
-			LocalDate issuedDate, LocalDate returnedDate) {
+	
+	public LibraryBook(int bookId, String bookName, String bookType, String bookAuthor) {
+		this.bookId = bookId;
+		this.bookName = bookName;
+		this.bookType = bookType;
+		this.bookAuthor = bookAuthor;
+	}
+	public LibraryBook(int bookId, String bookName, String bookType, String bookAuthor, boolean isBookIssued,
+			LocalDate issuedDate, LocalDate returnDate) {
 		this.bookId = bookId;
 		this.bookName = bookName;
 		this.bookType = bookType;
 		this.bookAuthor = bookAuthor;
 		this.isBookIssued = isBookIssued;
 		this.issuedDate = issuedDate;
-		this.returnedDate = returnedDate;
+		this.returnDate = returnDate;
 	}
 	public int getBookId() {
 		return bookId;
@@ -48,10 +52,11 @@ public class LibraryBook {
 	public void setBookAuthor(String bookAuthor) {
 		this.bookAuthor = bookAuthor;
 	}
-	public Boolean getIsBookIssued() {
+	
+	public boolean isBookIssued() {
 		return isBookIssued;
 	}
-	public void setIsBookIssued(Boolean isBookIssued) {
+	public void setBookIssued(boolean isBookIssued) {
 		this.isBookIssued = isBookIssued;
 	}
 	public LocalDate getIssuedDate() {
@@ -60,24 +65,20 @@ public class LibraryBook {
 	public void setIssuedDate(LocalDate issuedDate) {
 		this.issuedDate = issuedDate;
 	}
-	public LocalDate getReturnedDate() {
-		return returnedDate;
+	public LocalDate getReturnDate() {
+		return returnDate;
 	}
-	public void setReturnedDate(LocalDate returnedDate) {
-		this.returnedDate = returnedDate;
+	public void setReturnDate(LocalDate returnDate) {
+		this.returnDate = returnDate;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "LibraryBook [bookId=" + bookId + ", bookName=" + bookName + ", bookType=" + bookType + ", bookAuthor="
-				+ bookAuthor + ", isBookIssued=" + isBookIssued + ", issuedDate=" + issuedDate + ", returnedDate="
-				+ returnedDate + "]";
+				+ bookAuthor + ", isBookIssued=" + isBookIssued + ", issuedDate=" + issuedDate + ", returnDate="
+				+ returnDate + "]";
 	}
 
-
-	 
-	
-	
-	
-	
 
 }
