@@ -13,12 +13,12 @@ import com.project.exception.RecordNotFoundException;
 public interface LibraryService {
 	
 	/* Method for issuing books*/
-	boolean createBookCatalogue(String name) throws BookCatalogueException;
+	EmployeeBookCatalogue createBookCatalogue(String name) throws BookCatalogueException;
 	boolean issueBook(int bookId) throws BookCatalogueException;
-	EmployeeBookCatalogue showIssuedBookCatalogue()throws BookCatalogueException;
+	List<LibraryBook> showIssuedBookCatalogue()throws BookCatalogueException;
 
     /* Method for returning books*/
-    long calculateOverdueDays(LocalDate issuedDate,LocalDate returningDate) throws BookReturningException;
+    long calculateOverdueDays(LocalDate issuedDate,LocalDate returningDate);
     double calculateLateFine(String bookType, long overDays) throws BookReturningException;
     LibraryBookReturn returnBook(int bookId, LocalDate returningDate) throws BookReturningException;
     

@@ -29,14 +29,14 @@ public class LibraryServiceImpl implements LibraryService {
 
 	// Creating first time book catalogue with employee name
 	@Override
-	public boolean createBookCatalogue(String name) throws BookCatalogueException {
-		if (name.equals(" ")) {
+	public EmployeeBookCatalogue createBookCatalogue(String name) throws BookCatalogueException {
+		if (name.isEmpty() || name.isBlank()) {
 			throw new BookCatalogueException("NAME is missing\nPlease provide your name!!\n\nTHANK YOU");
 		} else {
 			employeeBookCatalogue = new EmployeeBookCatalogue(name);
 			boolean isCreated = employeeBookCatalogue.isCatalogueCreated();
 			if (isCreated) {
-				return true;
+				return employeeBookCatalogue;
 			} else {
 				throw new BookCatalogueException(
 						"An error occured while creating book catalogue!!\nPlease try again Later\nTHANK YOU!!\"");
@@ -51,7 +51,7 @@ public class LibraryServiceImpl implements LibraryService {
 		boolean isUpdated = libraryDao.updateBookIssuedStatus(bookId, isBookIssued);
 		if (!isUpdated) {
 			throw new BookCatalogueException(
-					"An error occured while issuing book!!\nPlease try again Later\nTHANK YOU!!");
+					"An Internal Server Error Occurred!!\nPlease try again Later\nTHANK YOU!!");
 		} else {
 			LibraryBook libraryBook = libraryDao.getBookById(bookId);
 			boolean isIssued = employeeBookCatalogue.setIssuedBooks(libraryBook);
@@ -61,23 +61,25 @@ public class LibraryServiceImpl implements LibraryService {
 				isBookIssued = false;
 				libraryDao.updateBookIssuedStatus(bookId, isBookIssued);
 				throw new BookCatalogueException(
-						"An error occured while issuing book by catalogue!!\nPlease try again Later\nTHANK YOU!!");
+						"An error occured while issuing book!!\nPlease try again Later\nTHANK YOU!!");
 			}
 		}
 	}
 
 	// Returning list of all issued book of the employee
 	@Override
-	public EmployeeBookCatalogue showIssuedBookCatalogue() throws BookCatalogueException {
+	public List<LibraryBook> showIssuedBookCatalogue() throws BookCatalogueException {
+		List<LibraryBook> issuedbooks;
 		if (employeeBookCatalogue != null) {
-			if (!employeeBookCatalogue.getEmployeeName().equals("")) {
-				return employeeBookCatalogue;
+			if (!employeeBookCatalogue.getIssuedBooks().isEmpty()) {
+				issuedbooks = employeeBookCatalogue.getIssuedBooks();
+				return issuedbooks;
 			} else {
 				throw new BookCatalogueException(
-						"An Error Occured While Fetching Your Catalogue Details!!\n\nPlease try again later\n\n\nTHANK YOU");
+						"No Issued Books Found For Your Account!!\n\nTHANK YOU");
 			}
 		} else {
-			throw new BookCatalogueException("No isssued books found in your catalogue!!\n\n\nTHANK YOU");
+			throw new BookCatalogueException("An Error Occured While Fetching Your Catalogue Details!!\nPlease try again later\n\nTHANK YOU");
 		}
 
 	}

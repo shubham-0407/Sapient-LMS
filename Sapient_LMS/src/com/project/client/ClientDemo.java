@@ -18,37 +18,34 @@ public class ClientDemo {
 	public static void main(String[] args) {
 		LibraryDao libraryDao = new LibraryDaoImpl();
 		LibraryService libraryService = new LibraryServiceImpl();
-		//EmployeeBookCatalogue employeeBookCatalogue = new EmployeeBookCatalogue();
+		// EmployeeBookCatalogue employeeBookCatalogue = new EmployeeBookCatalogue();
 //		 List<LibraryBook> booksList = 	libraryDao.showAllBook();
 //		 for (LibraryBook libraryBook : booksList) {
 //				System.out.println(libraryBook);
 //			 }
-		 System.out.println("**************************************************");
-		 List<LibraryBook> books = 	libraryDao.getBookByType("Management");
+		System.out.println("**************************************************");
+		List<LibraryBook> books = libraryDao.getBookByType("Management");
 
-		 for (LibraryBook libraryBook : books) {
+		for (LibraryBook libraryBook : books) {
 			System.out.println(libraryBook);
-		 }
-		 System.out.println("**************************************************");
-		 int input = 2;
-		 String name = "Shubham";
-		 try {
-			 libraryService.createBookCatalogue(name);
+		}
+		System.out.println("**************************************************");
+		int input = 2;
+		String name = "Sk";
+		try {
+			EmployeeBookCatalogue employeeBookCatalogue = null;
+			employeeBookCatalogue = libraryService.createBookCatalogue(name);
 			// libraryService.issueBook(books.get(input).getBookId());
-			// libraryService.issueBook(books.get(0).getBookId());
-//			 libraryService.issueBook(books.get(1).getBookId());
-			 System.out.println("Issued Book Details *******");
-			 EmployeeBookCatalogue employeeBookCatalogue = libraryService.showIssuedBookCatalogue();
-			 System.out.println("Employee Name: "+employeeBookCatalogue.getEmployeeName());
-			 System.out.println("List of issued books: "); 
-			 List<LibraryBook> issuedbooks = 	employeeBookCatalogue.getIssuedBooks();
-			 if(issuedbooks.isEmpty()) {
-				 System.out.println("No issued book");
-			 }
-			 for (LibraryBook libraryBook : issuedbooks) {
+			libraryService.issueBook(books.get(0).getBookId());
+			libraryService.issueBook(books.get(1).getBookId());
+			System.out.println("Issued Book Details *******");
+			System.out.println("Employee Name: " + employeeBookCatalogue.getEmployeeName());
+			System.out.println("List of issued books: ");
+			List<LibraryBook> issuedbooks = libraryService.showIssuedBookCatalogue();
+			for (LibraryBook libraryBook : issuedbooks) {
 				System.out.println(libraryBook);
-			 }
-			 System.out.println("**********************REturning book");
+			}
+			System.out.println("**********************REturning book");
 			 int bookId = books.get(0).getBookId();
 			 LocalDate returnDate = LocalDate.of(2024, 2, 25);
 			 LibraryBookReturn libraryBookReturn = libraryService.returnBook(bookId, returnDate);
@@ -57,11 +54,11 @@ public class ClientDemo {
 			 System.out.println("Fine: "+libraryBookReturn.getLateFine());
 			 System.out.println("Issued date: "+libraryBookReturn.getIssuedDate());
 			 System.out.println("Return dae: "+libraryBookReturn.getReturnDate());
+			 System.out.println("**********************Display left book");
+			 System.out.println(employeeBookCatalogue.getIssuedBooks());
 		} catch (BookCatalogueException | BookReturningException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		 
 
 	}
 
