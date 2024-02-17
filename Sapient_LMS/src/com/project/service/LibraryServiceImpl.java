@@ -1,24 +1,30 @@
 package com.project.service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import com.project.entity.LibraryBook;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.project.entity.EmployeeBookCatalogue;
-import com.project.entity.LibraryBook;
 import com.project.exception.BookCatalogueException;
 import com.project.exception.RecordNotFoundException;
 import com.project.persistence.LibraryDao;
 import com.project.persistence.LibraryDaoImpl;
 
 public class LibraryServiceImpl implements LibraryService {
-
-	LibraryDao libraryDao = new LibraryDaoImpl();
+	
+	private LibraryDao libraryDao = new LibraryDaoImpl();
 	EmployeeBookCatalogue employeeBookCatalogue;
 	List<LibraryBook> bookList = new ArrayList<LibraryBook>();
 	List<LibraryBook> bookListByType = new ArrayList<LibraryBook>();
 	LibraryBook libraryBook;
-	
+
+    @Override
+    public long calculateOverdueDays(int id) {     
+     LibraryBook book =    libraryDao.getBookById(id);
+     return ChronoUnit.DAYS.between(book.getIssuedDate(), book.getReturnDate());
+    }
+
 	// Creating first time book catalogue with employee name
 	@Override
 	public boolean createBookCatalogue(String name) throws BookCatalogueException {
@@ -39,7 +45,7 @@ public class LibraryServiceImpl implements LibraryService {
 	// Adding book to the employee's book catalogue
 	@Override
 	public boolean issueBook(int bookId) throws BookCatalogueException {
-		libraryBook = libraryDao.showBookById(bookId);
+		libraryBook = libraryDao.getBookById(bookId);
 		if(libraryBook == null) {
 			throw new BookCatalogueException(
 					"An error occured while issuing book!!\nPlease try again Later\nTHANK YOU!!");
@@ -70,7 +76,7 @@ public class LibraryServiceImpl implements LibraryService {
 	// Method to fetch all book list in the library
 	@Override
 	public List<LibraryBook> fetchAllBook() throws RecordNotFoundException {
-		bookList = libraryDao.showAllBook();
+		bookList = libraryDao.getAllBook();
 		if (bookList == null) {
 			throw new RecordNotFoundException(
 					"No Books Available in the Library!!\nPlease Visit Us Again\\nTHANK YOU!!");
@@ -82,7 +88,7 @@ public class LibraryServiceImpl implements LibraryService {
 	// Method to fetch all book list in the library by bookType
 	@Override
 	public List<LibraryBook> fetchBookByType(String bookType) throws RecordNotFoundException {
-		bookListByType = libraryDao.showBookByType(bookType);
+		bookListByType = libraryDao.getBookByType(bookType);
 		if (bookListByType == null) {
 			throw new RecordNotFoundException(bookType.toUpperCase()
 					+ " Type Books Not Available in the Library!!\nPlease Visit Us Again\\nTHANK YOU!!");
@@ -94,7 +100,7 @@ public class LibraryServiceImpl implements LibraryService {
 	// Method to fetch all book list in the library by bookType
 	@Override
 	public LibraryBook fetchBookById(int bookId) throws RecordNotFoundException {
-		libraryBook = libraryDao.showBookById(bookId);
+		libraryBook = libraryDao.getBookById(bookId);
 		if (libraryBook == null) {
 			throw new RecordNotFoundException( 
 					"No Book Available with book id "+bookId+" in the Library!!\nPlease Visit Us Again\\nTHANK YOU!!");

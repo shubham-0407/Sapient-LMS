@@ -79,8 +79,6 @@ public class LibraryBook {
 				+ bookAuthor + ", isBookIssued=" + isBookIssued + ", issuedDate=" + issuedDate + ", returnDate="
 				+ returnDate + "]";
 	}
-	
-	
-	
+
 
 }
