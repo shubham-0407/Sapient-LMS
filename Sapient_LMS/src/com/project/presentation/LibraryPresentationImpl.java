@@ -1,11 +1,15 @@
 package com.project.presentation;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
 import com.project.entity.EmployeeBookCatalogue;
 import com.project.entity.LibraryBook;
+import com.project.entity.LibraryBookReturn;
 import com.project.exception.BookCatalogueException;
+import com.project.exception.BookReturningException;
 import com.project.exception.RecordNotFoundException;
 import com.project.service.LibraryService;
 import com.project.service.LibraryServiceImpl;
@@ -114,7 +118,14 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 			break;
 		case 7:
 		{
-			System.out.println("This module under development!");
+			System.out.println("Enter Book ID : ");
+			int bookId = scanner.nextInt();
+			try {
+				LibraryBookReturn libraryBookReturn = libraryService.returnBook(bookId, LocalDate.now());
+				System.out.println(libraryBookReturn);
+			} catch (BookReturningException e) {
+				System.out.println("Caught exception "+e.getMessage());
+			}
 			break;
 		}
 		case 8:
