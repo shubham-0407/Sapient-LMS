@@ -18,9 +18,9 @@ public interface LibraryService {
 	List<LibraryBook> showIssuedBookCatalogue()throws BookCatalogueException;
 
     /* Method for returning books*/
-    long calculateOverdueDays(LocalDate issuedDate,LocalDate returningDate);
+    long calculateOverdueDays(LocalDate defaultReturnDate,LocalDate userReturningDate);
     double calculateLateFine(String bookType, long overDays) throws BookReturningException;
-    LibraryBookReturn returnBook(int bookId, LocalDate returningDate) throws BookReturningException;
+    LibraryBookReturn returnBook(int bookId, LocalDate userReturningDate) throws BookReturningException;
     
 	/*Method for showing book list*/
 	List<LibraryBook> fetchAllBook() throws RecordNotFoundException;

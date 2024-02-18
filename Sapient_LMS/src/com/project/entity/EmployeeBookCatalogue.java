@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeBookCatalogue {
-    private String employeeName;
-    private List<LibraryBook> issuedBooks;
-    private boolean issuedSuccess;
-    private boolean catalogueCreated;
-    private boolean returnSuccess;
+	private String employeeName;
+	private List<LibraryBook> issuedBooks;
+	private boolean catalogueCreated;
 
 	public EmployeeBookCatalogue(String employeeName) {
 		super();
@@ -20,30 +18,29 @@ public class EmployeeBookCatalogue {
 	public boolean isCatalogueCreated() {
 		return catalogueCreated;
 	}
+
 	public String getEmployeeName() {
 		return employeeName;
 	}
- 
+
 	public List<LibraryBook> getIssuedBooks() {
 		return issuedBooks;
 	}
+
 	public boolean setIssuedBooks(LibraryBook issuedBooks) {
-		issuedSuccess = this.issuedBooks.add(issuedBooks);
-		if(issuedSuccess) {
+		if (!this.issuedBooks.contains(issuedBooks)) {
+			this.issuedBooks.add(issuedBooks);
 			return true;
-		}else {
-			return false;
 		}
+		return false;
 	}
-	
+
 	public boolean returnBook(LibraryBook returnBook) {
-		returnSuccess = this.issuedBooks.remove(returnBook);
-		if(returnSuccess) {
+		if (this.issuedBooks.contains(returnBook)) {
+			this.issuedBooks.remove(returnBook);
 			return true;
-		}else {
-			return false;
 		}
+		return false;
 	}
 
 }
-

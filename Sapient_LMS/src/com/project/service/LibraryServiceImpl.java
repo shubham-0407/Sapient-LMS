@@ -86,15 +86,13 @@ public class LibraryServiceImpl implements LibraryService {
 
 	// Calculating number of over due days
 	@Override
-	public long calculateOverdueDays(LocalDate issuedDate, LocalDate returningDate) {
-		long overDueDays = 0;
-		long totalDays = ChronoUnit.DAYS.between(issuedDate, returningDate);
-		if (totalDays > 7) {
-			overDueDays = totalDays - 7;
+	public long calculateOverdueDays(LocalDate defaultReturnDate, LocalDate userReturningDate) {
+		long overDueDays = ChronoUnit.DAYS.between(defaultReturnDate, userReturningDate);
+		if (overDueDays  < 0) {
+			return 0;
 		} else {
-			overDueDays = totalDays;
+			return overDueDays;
 		}
-		return overDueDays;
 	}
 
 	// Calculating late fine while returning book
@@ -117,10 +115,10 @@ public class LibraryServiceImpl implements LibraryService {
 
 	// Method for returning book
 	@Override
-	public LibraryBookReturn returnBook(int bookId, LocalDate returningDate) throws BookReturningException {
+	public LibraryBookReturn returnBook(int bookId, LocalDate userReturningDate) throws BookReturningException {
 		LibraryBook libraryBook = libraryDao.getBookById(bookId);
 
-		if (returningDate.isBefore(libraryBook.getIssuedDate())) {
+		if (userReturningDate.isBefore(libraryBook.getIssuedDate())) {
 			throw new BookReturningException("Return date cannot be before issuing date");
 		}
 
@@ -132,11 +130,12 @@ public class LibraryServiceImpl implements LibraryService {
 				if (isReturned) {
 					String name = employeeBookCatalogue.getEmployeeName();
 					LocalDate bookIssuedDate = libraryBook.getIssuedDate();
-					long overDays = calculateOverdueDays(bookIssuedDate, returningDate);
+					LocalDate defaultReturnDate = libraryBook.getReturnDate();
+					long overDays = calculateOverdueDays(defaultReturnDate, userReturningDate);
 					String bookType = libraryBook.getBookType();
 					double totalFine = calculateLateFine(bookType, overDays);
 					LibraryBookReturn libraryBookReturn = new LibraryBookReturn(name, bookType, bookIssuedDate,
-							returningDate, totalFine);
+							userReturningDate, totalFine);
 					return libraryBookReturn;
 				} else {
 					throw new BookReturningException("No isssued books found for your account!!\n\nTHANK YOU");
@@ -169,7 +168,7 @@ public class LibraryServiceImpl implements LibraryService {
 		bookListByType = libraryDao.getBookByType(bookType);
 		if (bookListByType == null) {
 			throw new RecordNotFoundException(bookType.toUpperCase()
-					+ " Type Books Not Available in the Library!!\nPlease Visit Us Again\\nTHANK YOU!!");
+					+ " Type Books Not Available in the Library!!\nPlease Visit Us Again\n\nTHANK YOU!!");
 		} else {
 			return bookListByType;
 		}

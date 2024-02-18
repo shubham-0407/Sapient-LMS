@@ -32,9 +32,7 @@ public class LibraryDaoImpl implements LibraryDao {
 		try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);) {
 			preparedStatement = connection.prepareStatement(FETCHALLBOOK);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			if (!resultSet.next()) {
-				return null;
-			}
+			 
 			while (resultSet.next()) {
 				int bookId = resultSet.getInt("bookId");
 				String bookName = resultSet.getString("bookName");
@@ -42,6 +40,9 @@ public class LibraryDaoImpl implements LibraryDao {
 				String bookAuthor = resultSet.getString("bookAuthor");
 				libraryBook = new LibraryBook(bookId, bookName, bookType, bookAuthor);
 				bookList.add(libraryBook);
+			}
+			if (bookList.size() <= 0) {
+				return null;
 			}
 		} catch (SQLException e) {
 			System.out.println("Error in establish connection !! Please Check Your Credentials!!");
@@ -56,15 +57,15 @@ public class LibraryDaoImpl implements LibraryDao {
 			preparedStatement.setString(1, bookType);
 			preparedStatement.setBoolean(2, false);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			if (!resultSet.next()) {
-				return null;
-			}
 			while (resultSet.next()) {
 				int bookId = resultSet.getInt("bookId");
 				String bookName = resultSet.getString("bookName");
 				String bookAuthor = resultSet.getString("bookAuthor");
 				libraryBook = new LibraryBook(bookId, bookName, bookType, bookAuthor);
 				bookListByType.add(libraryBook);
+			}
+			if (bookListByType.size() <= 0) {
+				return null;
 			}
 		} catch (SQLException e) {
 			System.out.println("Error in establish connection !! Please Check Your Credentials!!");
