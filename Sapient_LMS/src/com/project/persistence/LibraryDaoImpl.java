@@ -12,9 +12,9 @@ import com.project.entity.LibraryBook;
 
 public class LibraryDaoImpl implements LibraryDao {
 	// Connection Details
-	final String DB_URL = "jdbc:mysql://127.0.0.1:3306/sapient_library";
-	final String DB_USER = "root";
-	final String DB_PASSWORD = "shubh@0407";
+	private final String DB_URL = "jdbc:mysql://127.0.0.1:3306/sapient_library";
+	private final String DB_USER = "root";
+	private final String DB_PASSWORD = "*****";
 
 	// SQL Queries
 	private final String FETCHALLBOOK = "SELECT * FROM BOOK";
