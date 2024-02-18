@@ -24,7 +24,7 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 	@Override
 	public void loginMenu() {
 		try {
-			System.out.println("Enter Your Name : ");
+			System.out.print("Enter Your Name : ");
 			String empName = scanner.next();
 			EmployeeBookCatalogue newEmployee = libraryService.createBookCatalogue(empName);
 			if (newEmployee != null)
@@ -88,23 +88,24 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 			System.out.println("===========================");
 			int position = 1;
 			List<LibraryBook> bookList = libraryService.fetchAllBook();
-			for (LibraryBook book : bookList) {
-				System.out.print("Book " + position + ": ");
-				System.out.println(book.getBookName() + " By " + book.getBookAuthor() + " || " + "Book Type: "
-						+ book.getBookType());
-				position++;
+			if (bookList.size() > 0) {
+				for (LibraryBook book : bookList) {
+					System.out.print("Book " + position + ": ");
+					System.out.println(book.getBookName() + " By " + book.getBookAuthor() + " || " + "Book Type: "
+							+ book.getBookType());
+					position++;
+				}
+				System.out.print("Entered input is: ");
+				int selectBookInput = scanner.nextInt();
+				int bookId = bookList.get(selectBookInput - 1).getBookId();
+				issueBook(bookId);
 			}
-			System.out.print("Entered input is: ");
-			int selectBookInput = scanner.nextInt();
-			int bookId = bookList.get(selectBookInput - 1).getBookId();
-			issueBook(bookId);
 		} catch (RecordNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			System.out.println("Something went wrong please try again!");
 		}
 	}
-
 
 	@Override
 	public void issueBook(int bookId) {
@@ -150,6 +151,7 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 			System.out.println("\n=========================");
 			System.out.println("List of Available Books of " + bookType.toUpperCase());
 			System.out.println("===========================");
+			System.out.println("Book type: "+bookType);
 			int position = 1;
 			List<LibraryBook> bookListByType = libraryService.fetchBookByType(bookType);
 			for (LibraryBook book : bookListByType) {
@@ -190,8 +192,8 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 			int selectBookInput = scanner.nextInt();
 			System.out.println("Enter returning date(YYYY-MM-DD): ");
 			String date = scanner.next();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  
-			LocalDate returningDate = LocalDate.parse(date,formatter);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate returningDate = LocalDate.parse(date, formatter);
 			int bookId = issuedBookList.get(selectBookInput - 1).getBookId();
 			returnBook(bookId, returningDate);
 		} catch (BookCatalogueException e) {
@@ -200,25 +202,25 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 			System.out.println("Something went wrong please try again!");
 		}
 	}
-	
+
 	@Override
 	public void returnBook(int bookId, LocalDate returningDate) {
 		try {
-			LibraryBookReturn libraryBookReturn = libraryService.returnBook(bookId, LocalDate.now());
-			System.out.println("LAte fine : "+libraryBookReturn.getLateFine());
-			if(libraryBookReturn.getLateFine() != 0) {
+			LibraryBookReturn libraryBookReturn = libraryService.returnBook(bookId,returningDate );
+			System.out.println("LAte fine : " + libraryBookReturn.getLateFine());
+			if (libraryBookReturn.getLateFine() != 0) {
 				System.out.println("===================================================");
 				System.out.println("Book has been returned with following details");
 				System.out.println("===================================================");
-				System.out.println("Employee name: "+libraryBookReturn.getEmployeeName());
-				System.out.println("Book type: "+libraryBookReturn.getBookType());
-				System.out.println("Issued Date: "+libraryBookReturn.getIssuedDate());
-				System.out.println("Return Date: "+libraryBookReturn.getReturnDate());
-				System.out.println("Late Fine Rs: "+libraryBookReturn.getLateFine());
+				System.out.println("Employee name: " + libraryBookReturn.getEmployeeName());
+				System.out.println("Book type: " + libraryBookReturn.getBookType());
+				System.out.println("Issued Date: " + libraryBookReturn.getIssuedDate());
+				System.out.println("Return Date: " + libraryBookReturn.getReturnDate());
+				System.out.println("Late Fine Rs: " + libraryBookReturn.getLateFine());
 				System.out.println("===================================================");
 				System.out.println("Thank you!! Please visit us again");
 				System.out.println("===================================================");
-			}else {
+			} else {
 				System.out.println("\nThere is no late fee applicable and the book has been returned!!\nTHANK YOU");
 			}
 		} catch (BookReturningException e) {
@@ -229,7 +231,7 @@ public class LibraryPresentationImpl implements LibraryPresentation {
 
 	@Override
 	public void showIssuedBookCatalogue() {
-		try {	
+		try {
 			int position = 1;
 			List<LibraryBook> issuedBookList = libraryService.showIssuedBookCatalogue();
 			System.out.println("\n=========================================");
